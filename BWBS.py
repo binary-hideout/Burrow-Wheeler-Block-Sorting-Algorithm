@@ -67,8 +67,10 @@ try:
     original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
 except:
     print('Ingresa una cadena de texto válida')
-bws = block_sorting_forward(original_word)
-resultado = block_sorting_reverse_transformation(bws[0], bws[1])
+    sys.exit()
+
+bws = block_sorting_forward(original_word) #Block sorting forward con la string
+resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
 
 print('\n')
 print(f'La cadena de texto original: "{original_word}"\n')
