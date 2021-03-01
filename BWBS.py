@@ -48,6 +48,12 @@ def block_sorting_reverse_transformation(char:str, index:int):
         raise TypeError("El parametro debe ser una string")
     if not char:
         raise ValueError("La string no puede estar vacía")
+    if index < 0:
+        raise ValueError("El índice no debe ser menor a 0")
+    if index >= len(char):
+        raise ValueError(
+            "El índice no puede ser mayor a la longitud de la string original"
+        )
 
 
 print(block_sorting_forward('hello!'))
