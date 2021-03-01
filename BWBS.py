@@ -1,10 +1,11 @@
 #from itertools import combinations, permutations
+import sys
 
 def all_string_permutations(char:str):
     """
     ? :param char: La string de la que se sacaran las permutaciones ciclicas, 
     ?  a->b, b->c, c->d, d->a, por n veces, n=len(char)
-    ? https://solitaryroad.com/c302.html
+    ? Referencia: https://solitaryroad.com/c302.html
     """
     if not isinstance(char, str):
         raise TypeError("El parametro debe ser una string")
@@ -54,6 +55,22 @@ def block_sorting_reverse_transformation(char:str, index:int):
         raise ValueError(
             "El índice no puede ser mayor a la longitud de la string original"
         )
+    
+    ordered_rotations = [""] * len(char)
+    for x in range(len(char)):
+        for i in range(len(char)):
+            ordered_rotations[i] = char[i] + ordered_rotations[i]
+        ordered_rotations.sort()
+    return ordered_rotations[index]
 
+try:
+    original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
+except:
+    print('Ingresa una cadena de texto válida')
+bws = block_sorting_forward(original_word)
+resultado = block_sorting_reverse_transformation(bws[0], bws[1])
 
-print(block_sorting_forward('hello!'))
+print('\n')
+print(f'La cadena de texto original: "{original_word}"\n')
+print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
+print(f'Resultado de la segunda transformación: "{resultado}"')
