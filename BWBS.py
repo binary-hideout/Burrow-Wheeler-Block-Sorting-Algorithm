@@ -26,11 +26,11 @@ def block_sorting_forward(char:str):
         raise ValueError("La string no puede estar vacía")
 
     cyclic_permutations = all_string_permutations(char)
-    print(f'permutaciones de la string "{char}":')
-    print(cyclic_permutations, '\n')
+    #print(f'permutaciones de la string "{char}":')
+    #print(cyclic_permutations, '\n')
     cyclic_permutations.sort()
-    print(f'permutaciones de la string "{char}" ordenadas alfabeticamente:')
-    print(cyclic_permutations)
+    #print(f'permutaciones de la string "{char}" ordenadas alfabeticamente:')
+    #print(cyclic_permutations)
 
     combination = ''
     for perm in cyclic_permutations:
@@ -63,6 +63,9 @@ def block_sorting_reverse_transformation(char:str, index:int):
         ordered_rotations.sort()
     return ordered_rotations[index]
 
+"""
+* Inicio del programa
+"""
 try:
     original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
 except:
