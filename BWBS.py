@@ -114,6 +114,7 @@ def delta(i):
     repeat = "0" * L
     return (repeat + str(format((N+1),'b')) + binary[1:])
 
+# Robbie test
 def inv_gamma(bitstream: str):
     output = []
     try:
