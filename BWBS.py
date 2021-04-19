@@ -82,7 +82,7 @@ def get_alphabet(text:str):
 """
 ? function move_to_front: Aplica el move-to-front
 ? param text: la cadena de texto a aplicarle el mtf
-? return indexes: la string con sus indices correspondientes a partir de su alfabeto
+? return indexes: la string con sus indices correspondientes a partir de su alfabeto.
 """
 def move_to_front(text:str):
     if not isinstance(text, str):
