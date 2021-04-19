@@ -41,7 +41,7 @@ def block_sorting_forward(char:str):
     return combination, original_word_index
 
 """
-? function block_sorting_reverse_transformation: reverses the result of a BWSF transformation
+? function block_sorting_reverse_transformation: 'invierte' el resultado de una transformada de BW
 ? param char: La string resultante de bs-forward
 ? param index: El indíce de la string original
 """
@@ -64,10 +64,31 @@ def block_sorting_reverse_transformation(char:str, index:int):
             ordered_rotations[i] = char[i] + ordered_rotations[i]
         ordered_rotations.sort()
     return ordered_rotations[index]
-
+"""
+? param text: Cadena de texto de la que sacara el alfabeto
+? return alphabet: lista con el alfabeto de la cadena
+"""
+def get_alphabet(text:str):
+    #const Sigma = new Set<string>()
+    #for (let i = 0; i < str.length; ++i)
+        #Sigma.add(str[i]);
+    #return Array.from(Sigma).sort()
+    alphabet = []
+    
+    for i in range(len(text)):
+        alphabet.append(str(text[i]))
+    print(alphabet)
+    unique_alphabet = list(set(alphabet))
+    unique_alphabet.sort()
+    return unique_alphabet
+"""
+? function move_to_front: Agarra el caracter con su indice y lo mueve al frente de la lista
+? param index: el indice en la cadena de texto
+"""
 def move_to_front():
     print('move to front')
-
+"""
+"""
 def MTF_Encoding():
     print('Actual mtf encoding')
 
@@ -86,4 +107,5 @@ bws = block_sorting_forward(original_word) #Block sorting forward con la string
 print('\n')
 print(f'La cadena de texto original: "{original_word}"\n')
 print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
+print(get_alphabet(bws[0]))
 #print(f'Resultado de la segunda transformación: "{resultado}"')
