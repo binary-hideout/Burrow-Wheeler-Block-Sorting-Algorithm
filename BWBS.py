@@ -99,6 +99,7 @@ def move_to_front(text:str):
         txt_alphabet.insert(0, text[i])
 
     return indexes
+    
 """
 """
 def MTF_Encoding():
@@ -119,5 +120,5 @@ bws = block_sorting_forward(original_word) #Block sorting forward con la string
 print('\n')
 print(f'La cadena de texto original: "{original_word}"\n')
 print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
-print(get_alphabet(bws[0]))
+print(move_to_front(bws[0]))
 #print(f'Resultado de la segunda transformación: "{resultado}"')
