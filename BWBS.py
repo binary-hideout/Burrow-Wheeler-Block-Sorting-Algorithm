@@ -1,5 +1,6 @@
 #from itertools import combinations, permutations
 import sys
+import math
 
 """
 ? param char: La string de la que se sacaran las permutaciones ciclicas, 
@@ -99,6 +100,43 @@ def move_to_front(text:str):
         txt_alphabet.insert(0, text[i])
 
     return indexes
+
+
+def gamma(i):
+    repeat = "0" * math.floor(math.log2(i + 1))
+    binary = format((i+1),'b')
+    return (str(repeat) + str(binary))
+
+def delta(i):
+    N = math.floor(math.log2(i+1))
+    L = math.floor(math.log2(N+1))
+    binary = format((i+1),'b')
+    repeat = "0" * L
+    return (repeat + str(format((N+1),'b')) + binary[1:])
+
+def inv_gamma(bitstream: str):
+    output = []
+    try:
+        j = bitstream.index("1")
+    except Exception as e:
+        j=-1
+        print("No se encontró el indice")
+
+    while ((j >= 0) and (len(bitstream) > (2*j))):
+        output.append(int(bitstream[j:(2 * j + 1)] , 2) - 1)
+        bitstream = bitstream[(2*j+1):]
+
+        try:
+            j = bitstream.index("1")
+        except Exception as e:
+            j=-1
+            print("No se encontró el indice")
+
+
+    if len(bitstream) > 0:
+        return []
+
+    return output
     
 """
 """
