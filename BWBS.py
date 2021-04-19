@@ -1,12 +1,12 @@
 #from itertools import combinations, permutations
 import sys
 
+"""
+? param char: La string de la que se sacaran las permutaciones ciclicas, 
+?  a->b, b->c, c->d, d->a, por n veces, n=len(char)
+? Referencia: https://solitaryroad.com/c302.html
+"""
 def all_string_permutations(char:str):
-    """
-    ? :param char: La string de la que se sacaran las permutaciones ciclicas, 
-    ?  a->b, b->c, c->d, d->a, por n veces, n=len(char)
-    ? Referencia: https://solitaryroad.com/c302.html
-    """
     if not isinstance(char, str):
         raise TypeError("El parametro debe ser una string")
     if not char:
@@ -14,12 +14,13 @@ def all_string_permutations(char:str):
     return [char[i:] + char[:i] for i in range(len(char))]
 
 
+"""
+? param char: La string con la que se hará la matriz y se obtendrá el resultado para después aplicar
+? 'block-sorting-reverse-transformation
+? return combination: tupla con la combinación del último caracter de cada fila
+? return original_word_index: el indice de la string original
+"""
 def block_sorting_forward(char:str):
-    """
-    ? :param char: La string con la que se hará la matriz y se obtendrá el resultado para después aplicar
-    ? 'block-sorting-reverse-transformation
-    ? :return: tupla con la combinación del último caracter de cada fila y el indice de la string original
-    """
     if not isinstance(char, str):
         raise TypeError("El parametro debe ser una string")
     if not char:
@@ -39,12 +40,13 @@ def block_sorting_forward(char:str):
 
     return combination, original_word_index
 
-
+"""
+? function block_sorting_reverse_transformation: reverses the result of a BWSF transformation
+? param char: La string resultante de bs-forward
+? param index: El indíce de la string original
+"""
 def block_sorting_reverse_transformation(char:str, index:int):
-    """
-    ? :param char: La string resultante de bs-forward
-    ? :param index: El indíce de la string original
-    """
+    
     if not isinstance(char, str):
         raise TypeError("El parametro debe ser una string")
     if not char:
@@ -63,6 +65,12 @@ def block_sorting_reverse_transformation(char:str, index:int):
         ordered_rotations.sort()
     return ordered_rotations[index]
 
+def move_to_front():
+    print('move to front')
+
+def MTF_Encoding():
+    print('Actual mtf encoding')
+
 """
 * Inicio del programa
 """
@@ -73,9 +81,9 @@ except:
     sys.exit()
 
 bws = block_sorting_forward(original_word) #Block sorting forward con la string
-resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
+#resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
 
 print('\n')
 print(f'La cadena de texto original: "{original_word}"\n')
 print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
-print(f'Resultado de la segunda transformación: "{resultado}"')
+#print(f'Resultado de la segunda transformación: "{resultado}"')
