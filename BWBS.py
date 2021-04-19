@@ -69,24 +69,36 @@ def block_sorting_reverse_transformation(char:str, index:int):
 ? return alphabet: lista con el alfabeto de la cadena
 """
 def get_alphabet(text:str):
-    #const Sigma = new Set<string>()
-    #for (let i = 0; i < str.length; ++i)
-        #Sigma.add(str[i]);
-    #return Array.from(Sigma).sort()
     alphabet = []
-    
+
     for i in range(len(text)):
         alphabet.append(str(text[i]))
     print(alphabet)
     unique_alphabet = list(set(alphabet))
     unique_alphabet.sort()
     return unique_alphabet
+
 """
-? function move_to_front: Agarra el caracter con su indice y lo mueve al frente de la lista
-? param index: el indice en la cadena de texto
+? function move_to_front: Aplica el move-to-front
+? param text: la cadena de texto a aplicarle el mtf
+? return indexes: la string con sus indices correspondientes a partir de su alfabeto
 """
-def move_to_front():
-    print('move to front')
+def move_to_front(text:str):
+    if not isinstance(text, str):
+        raise TypeError("El parametro debe ser una string")
+    if not text:
+        raise ValueError("La string no puede estar vacía")
+
+    txt_alphabet = get_alphabet(text)
+    indexes = []
+    for i in range(len(text)):
+        id_alphabet = txt_alphabet.index(text[i])
+        indexes.append(id_alphabet)
+        #pop that element (text[i]) and put it at the front of the alphabet
+        txt_alphabet.pop(id_alphabet)
+        txt_alphabet.insert(0, text[i])
+
+    return indexes
 """
 """
 def MTF_Encoding():
