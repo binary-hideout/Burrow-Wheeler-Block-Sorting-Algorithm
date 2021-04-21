@@ -174,9 +174,18 @@ def inv_delta(bits:str):
     """
     
 """
+? function MTF_Encoding: calls delta function to convert the indexes from move to front to bits
+? param char: the string to be encoded
+? return accumulator: the string converted to bits
 """
-def MTF_Encoding():
-    print('Actual mtf encoding')
+def MTF_Encoding(char:str):
+    #move_to_front(bws[0]).reduce((accumulator, i) => accumulator + delta(i), "");
+    indexes = move_to_front(char)
+    accumulator = ''
+    for i in range(len(indexes)):
+        accumulator += delta(indexes[i])
+    #print(indexes)
+    return accumulator
 
 """
 * Inicio del programa
