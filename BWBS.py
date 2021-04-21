@@ -1,5 +1,6 @@
 #from itertools import combinations, permutations
 import sys
+import math
 
 """
 ? param char: La string de la que se sacaran las permutaciones ciclicas, 
@@ -81,7 +82,7 @@ def get_alphabet(text:str):
 """
 ? function move_to_front: Aplica el move-to-front
 ? param text: la cadena de texto a aplicarle el mtf
-? return indexes: la string con sus indices correspondientes a partir de su alfabeto
+? return indexes: la string con sus indices correspondientes a partir de su alfabeto.
 """
 def move_to_front(text:str):
     if not isinstance(text, str):
@@ -100,6 +101,7 @@ def move_to_front(text:str):
 
     return indexes
 
+<<<<<<< HEAD
 """
 ? param bits: A string of bits consisting of concatenated Elias delta codes.
 """
@@ -133,6 +135,45 @@ def inv_delta(bits:str):
         return [];
     return output;
     """
+=======
+
+def gamma(i):
+    repeat = "0" * math.floor(math.log2(i + 1))
+    binary = format((i+1),'b')
+    return (str(repeat) + str(binary))
+
+def delta(i):
+    N = math.floor(math.log2(i+1))
+    L = math.floor(math.log2(N+1))
+    binary = format((i+1),'b')
+    repeat = "0" * L
+    return (repeat + str(format((N+1),'b')) + binary[1:])
+
+# Robbie test
+def inv_gamma(bitstream: str):
+    output = []
+    try:
+        j = bitstream.index("1")
+    except Exception as e:
+        j=-1
+        print("No se encontró el indice")
+
+    while ((j >= 0) and (len(bitstream) > (2*j))):
+        output.append(int(bitstream[j:(2 * j + 1)] , 2) - 1)
+        bitstream = bitstream[(2*j+1):]
+
+        try:
+            j = bitstream.index("1")
+        except Exception as e:
+            j=-1
+            print("No se encontró el indice")
+
+
+    if len(bitstream) > 0:
+        return []
+
+    return output
+>>>>>>> 8329b5231cc051583bf7a7eeddcc0bcd95d31a62
     
 """
 """
