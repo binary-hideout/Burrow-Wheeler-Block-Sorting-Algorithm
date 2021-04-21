@@ -101,11 +101,12 @@ def move_to_front(text:str):
 
     return indexes, get_alphabet(text) #indexes + original alphabet
 
-
+"""
 def gamma(i):
     repeat = "0" * math.floor(math.log2(i + 1))
     binary = format((i+1),'b')
     return (str(repeat) + str(binary))
+"""
 
 def delta(i):
     N = math.floor(math.log2(i+1))
@@ -114,6 +115,7 @@ def delta(i):
     repeat = "0" * L
     return (repeat + str(format((N+1),'b')) + binary[1:])
 
+"""
 # Robbie test
 def inv_gamma(bitstream: str):
     output = []
@@ -140,6 +142,8 @@ def inv_gamma(bitstream: str):
     return output
 
 """
+
+"""
 ? param bits: A string of bits consisting of concatenated Elias delta codes.
 """
 def inv_delta(bits:str):
@@ -148,7 +152,7 @@ def inv_delta(bits:str):
         L = bits.index("1")
     except Exception as e:
         L=-1
-        print("No se encontró el indice")
+        #print("No se encontró el indice")
 
     while L >= 0:
         if ( len(bits) < (2*L+1) ):
@@ -167,7 +171,7 @@ def inv_delta(bits:str):
             L = bits.index("1")
         except Exception as e:
             L=-1
-            print("No se encontró el indice")
+            #print("No se encontró el indice")
 
 
     if len(bits) > 0:
@@ -193,16 +197,12 @@ def MTF_Encoding(char:str):
     return accumulator, alphabet
 
 """
-? function MTF_Decoding: calls delta function to convert the indexes from move to front to bits
+? function MTF_Decoding: Decodes and Mtf_encoded string
 ? param mtf_coded: the string to be decoded
-? return accumulator: the string converted to bits
-
- * @param bitstream The input bit stream.
- * @param Sigma The alphabet of the coded string.
- * @returns The decoded string
+? param alphabet: original alphabet
+? return decoded text: the mapped characters from the alphabet
 """
 def MTF_Decoding(mtf_coded:str, alphabet:list):
-    #original_input = MTF_Decoding(orig_mtf, Array.from(alphabet_str));
     data = inv_delta(mtf_coded)
     if(data == [] or max(data) >= len(alphabet)):
         return ""
@@ -219,21 +219,6 @@ def MTF_Decoding(mtf_coded:str, alphabet:list):
         decoded_text += word
         
     return decoded_text
-    """
-    bitstream: string, Sigma: string[]): string {
-    const data = inv_delta(bitstream);
-    if (data === null || Math.max(...data) >= Sigma.length)
-        return "";
-    const decoded: string[] = []
-    for (let i = 0; i < data.length; ++i) {
-        const j = data[i];
-        const c = Sigma[j];
-        decoded.push(c)
-        Sigma.splice(j, 1);
-        Sigma.unshift(c);
-    }
-    return decoded.join("");
-    """ 
 
 """
 * Inicio del programa
