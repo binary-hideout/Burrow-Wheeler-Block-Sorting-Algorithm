@@ -99,7 +99,7 @@ def move_to_front(text:str):
         txt_alphabet.pop(id_alphabet)
         txt_alphabet.insert(0, text[i])
 
-    return indexes, txt_alphabet
+    return indexes, get_alphabet(text) #indexes + original alphabet
 
 
 def gamma(i):
