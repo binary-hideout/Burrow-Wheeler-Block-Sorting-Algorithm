@@ -188,6 +188,49 @@ def MTF_Encoding(char:str):
     return accumulator
 
 """
+? function MTF_Decoding: calls delta function to convert the indexes from move to front to bits
+? param mtf_coded: the string to be decoded
+? return accumulator: the string converted to bits
+
+ * @param bitstream The input bit stream.
+ * @param Sigma The alphabet of the coded string.
+ * @returns The decoded string
+"""
+def MTF_Decoding(mtf_coded:str, alphabet:list):
+    #original_input = inv_mtf(orig_mtf, Array.from(alphabet_str));
+    data = inv_delta(mtf_coded)
+    if(data == []): #or Math.max(...data) >= len(alphabet)
+        return ""
+    decoded = []
+    for i in range(len(data)):
+        j = data[i]
+        c = alphabet[j]
+        decoded.append(c)
+        alphabet.pop(j)
+        alphabet.insert(0, c)
+
+    decoded_text = ''
+    for word in decoded:
+        decoded_text += word
+        
+    return decoded_text
+    """
+    bitstream: string, Sigma: string[]): string {
+    const data = inv_delta(bitstream);
+    if (data === null || Math.max(...data) >= Sigma.length)
+        return "";
+    const decoded: string[] = []
+    for (let i = 0; i < data.length; ++i) {
+        const j = data[i];
+        const c = Sigma[j];
+        decoded.push(c)
+        Sigma.splice(j, 1);
+        Sigma.unshift(c);
+    }
+    return decoded.join("");
+    """
+
+"""
 * Inicio del programa
 """
 try:
