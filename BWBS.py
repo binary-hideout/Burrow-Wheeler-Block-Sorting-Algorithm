@@ -99,6 +99,40 @@ def move_to_front(text:str):
         txt_alphabet.insert(0, text[i])
 
     return indexes
+
+"""
+? param bits: A string of bits consisting of concatenated Elias delta codes.
+"""
+def inv_delta(bits:str):
+    output = []
+    L = 0
+    while((L == bits.index('1')) >= 0):
+        if(len(bits) < (2 * L + 1)):
+            return []
+        N = 0
+        # N = parseInt(bitstream.slice(L, 2 * L + 1), 2) - 1;
+        if(len(bits) < (2 * L + 1 + N)):
+            return []
+        output.append(int(1 )) #+ bitstream.slice(2 * L + 1, 2 * L + 1 + N), 2) - 1)
+        #bits = bits.slice(2 * L + N + 1)
+    if(len(bits) > 0):
+        return []
+
+    return output
+    """
+     const output: number[] = [];
+    let L = 0;
+    while ((L = bitstream.indexOf("1")) >= 0) {
+        if (bitstream.length < 2 * L + 1) return [];
+        const N = parseInt(bitstream.slice(L, 2 * L + 1), 2) - 1;
+        if (bitstream.length < 2 * L + 1 + N) return [];
+        output.push(parseInt("1" + bitstream.slice(2 * L + 1, 2 * L + 1 + N), 2) - 1);
+        bitstream = bitstream.slice(2 * L + N + 1);
+    }
+    if (bitstream.length > 0)
+        return [];
+    return output;
+    """
     
 """
 """
