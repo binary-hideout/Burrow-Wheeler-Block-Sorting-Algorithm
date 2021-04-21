@@ -142,19 +142,35 @@ def inv_gamma(bitstream: str):
 """
 ? param bits: A string of bits consisting of concatenated Elias delta codes.
 """
-def inv_delta(bits:str):
+def inv_delta(bitstream: str):
     output = []
-    L = 0
-    while((L == bits.index('1')) >= 0):
-        if(len(bits) < (2 * L + 1)):
+    try:
+        L = bitstream.index("1")
+    except Exception as e:
+        L=-1
+        print("No se encontró el indice")
+
+    while L >= 0:
+        if ( len(bitstream) < (2*L+1) ):
             return []
-        N = 0
-        # N = parseInt(bitstream.slice(L, 2 * L + 1), 2) - 1;
-        if(len(bits) < (2 * L + 1 + N)):
+        
+        N = int(bitstream[L:(2 * L + 1)] , 2) - 1
+
+        if ( len(bitstream) < (2 * L + 1 + N) ):
             return []
-        output.append(int(1 )) #+ bitstream.slice(2 * L + 1, 2 * L + 1 + N), 2) - 1)
-        #bits = bits.slice(2 * L + N + 1)
-    if(len(bits) > 0):
+
+        binary = "1" + bitstream[(2 * L + 1):(2 * L + 1 + N)]
+        output.append(int(binary , 2) - 1)
+        bitstream = bitstream[(2 * L + N + 1):]
+
+        try:
+            L = bitstream.index("1")
+        except Exception as e:
+            L=-1
+            print("No se encontró el indice")
+
+
+    if len(bitstream) > 0:
         return []
 
     return output
