@@ -233,17 +233,26 @@ def MTF_Decoding(mtf_coded:str, alphabet:list):
 """
 * Inicio del programa
 """
-try:
-    original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
-except:
-    print('Ingresa una cadena de texto válida')
-    sys.exit()
+def bwbs(original_word):
+    '''
+    try:
+        original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
+    except:
+        print('Ingresa una cadena de texto válida')
+        sys.exit()
+    '''
 
-bws = block_sorting_forward(original_word) #Block sorting forward con la string
-#resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
+    bws = block_sorting_forward(original_word) #Block sorting forward con la string
+    #resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
 
-print('\n')
-print(f'La cadena de texto original: "{original_word}"\n')
-print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
-print(move_to_front(bws[0]))
-#print(f'Resultado de la segunda transformación: "{resultado}"')
+    '''
+    print('\n')
+    print(f'La cadena de texto original: "{original_word}"\n')
+    print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
+    print(move_to_front(bws[0]))
+    '''
+    #print(f'Resultado de la segunda transformación: "{resultado}"')
+    
+    return bws
+
+# bwbs()
