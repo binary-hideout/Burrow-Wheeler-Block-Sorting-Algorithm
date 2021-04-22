@@ -21,3 +21,31 @@ def file_to_strings(file):
 for f in txt_files:
     print(file_to_strings(f))
 """
+def encode(option:int):
+    strings = file_to_strings(txt_files[option - 1])
+    with open(path + 'encoded.txt', 'w') as enc:
+        for s in strings:
+            bwt = block_sorting_forward(s)
+            index = bwt[1]
+            print(bwt)
+            
+            #mtf = MTF_Encoding(bwt[0])
+            #binary = mtf[0]
+            #alphabet = mtf[1]
+
+            #enc.write(binary + ' ' + index + ' ' + alphabet + '\n')
+            
+
+
+
+
+print('Ingresa el número de archivo que quieres codificar')
+for i in range(len(txt_files)):
+    print(f'{i + 1}.- {txt_files[i]}')
+
+try:
+    option = int(input('Selección: '))
+    encode(option)
+except:
+    print('Opción no aceptada')
+    sys.exit()
