@@ -223,6 +223,8 @@ def MTF_Decoding(mtf_coded:str, alphabet:list):
 """
 * Inicio del programa
 """
+
+"""
 try:
     original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
 except:
@@ -242,3 +244,4 @@ mtf_decoded = MTF_Decoding(binary, alphabet)
 print(mtf_decoded)
 print(block_sorting_reverse_transformation(mtf_decoded, bws[1]))
 #print(f'Resultado de la segunda transformación: "{resultado}"')
+"""
