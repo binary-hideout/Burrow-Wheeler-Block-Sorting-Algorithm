@@ -99,13 +99,14 @@ def move_to_front(text:str):
         txt_alphabet.pop(id_alphabet)
         txt_alphabet.insert(0, text[i])
 
-    return indexes
+    return indexes, get_alphabet(text) #indexes + original alphabet
 
-
+"""
 def gamma(i):
     repeat = "0" * math.floor(math.log2(i + 1))
     binary = format((i+1),'b')
     return (str(repeat) + str(binary))
+"""
 
 def delta(i):
     N = math.floor(math.log2(i+1))
@@ -114,6 +115,7 @@ def delta(i):
     repeat = "0" * L
     return (repeat + str(format((N+1),'b')) + binary[1:])
 
+"""
 # Robbie test
 def inv_gamma(bitstream: str):
     output = []
@@ -140,38 +142,43 @@ def inv_gamma(bitstream: str):
     return output
 
 """
+
+"""
 ? param bits: A string of bits consisting of concatenated Elias delta codes.
 """
 def inv_delta(bits:str):
     output = []
-    L = 0
-    while((L == bits.index('1')) >= 0):
-        if(len(bits) < (2 * L + 1)):
+    try:
+        L = bits.index("1")
+    except Exception as e:
+        L=-1
+        #print("No se encontró el indice")
+
+    while L >= 0:
+        if ( len(bits) < (2*L+1) ):
             return []
-        N = 0
-        # N = parseInt(bitstream.slice(L, 2 * L + 1), 2) - 1;
-        if(len(bits) < (2 * L + 1 + N)):
+        
+        N = int(bits[L:(2 * L + 1)] , 2) - 1
+
+        if ( len(bits) < (2 * L + 1 + N) ):
             return []
-        output.append(int(1 )) #+ bitstream.slice(2 * L + 1, 2 * L + 1 + N), 2) - 1)
-        #bits = bits.slice(2 * L + N + 1)
-    if(len(bits) > 0):
+
+        binary = "1" + bits[(2 * L + 1):(2 * L + 1 + N)]
+        output.append(int(binary , 2) - 1)
+        bits = bits[(2 * L + N + 1):]
+
+        try:
+            L = bits.index("1")
+        except Exception as e:
+            L=-1
+            #print("No se encontró el indice")
+
+
+    if len(bits) > 0:
         return []
 
     return output
-    """
-     const output: number[] = [];
-    let L = 0;
-    while ((L = bitstream.indexOf("1")) >= 0) {
-        if (bitstream.length < 2 * L + 1) return [];
-        const N = parseInt(bitstream.slice(L, 2 * L + 1), 2) - 1;
-        if (bitstream.length < 2 * L + 1 + N) return [];
-        output.push(parseInt("1" + bitstream.slice(2 * L + 1, 2 * L + 1 + N), 2) - 1);
-        bitstream = bitstream.slice(2 * L + N + 1);
-    }
-    if (bitstream.length > 0)
-        return [];
-    return output;
-    """
+    
     
 """
 ? function MTF_Encoding: calls delta function to convert the indexes from move to front to bits
@@ -180,26 +187,24 @@ def inv_delta(bits:str):
 """
 def MTF_Encoding(char:str):
     #move_to_front(bws[0]).reduce((accumulator, i) => accumulator + delta(i), "");
-    indexes = move_to_front(char)
+    mtf = move_to_front(char)
+    indexes = mtf[0]
+    alphabet = mtf[1]
     accumulator = ''
     for i in range(len(indexes)):
         accumulator += delta(indexes[i])
     #print(indexes)
-    return accumulator
+    return accumulator, alphabet
 
 """
-? function MTF_Decoding: calls delta function to convert the indexes from move to front to bits
+? function MTF_Decoding: Decodes and Mtf_encoded string
 ? param mtf_coded: the string to be decoded
-? return accumulator: the string converted to bits
-
- * @param bitstream The input bit stream.
- * @param Sigma The alphabet of the coded string.
- * @returns The decoded string
+? param alphabet: original alphabet
+? return decoded text: the mapped characters from the alphabet
 """
 def MTF_Decoding(mtf_coded:str, alphabet:list):
-    #original_input = inv_mtf(orig_mtf, Array.from(alphabet_str));
     data = inv_delta(mtf_coded)
-    if(data == []): #or Math.max(...data) >= len(alphabet)
+    if(data == [] or max(data) >= len(alphabet)):
         return ""
     decoded = []
     for i in range(len(data)):
@@ -214,25 +219,11 @@ def MTF_Decoding(mtf_coded:str, alphabet:list):
         decoded_text += word
         
     return decoded_text
-    """
-    bitstream: string, Sigma: string[]): string {
-    const data = inv_delta(bitstream);
-    if (data === null || Math.max(...data) >= Sigma.length)
-        return "";
-    const decoded: string[] = []
-    for (let i = 0; i < data.length; ++i) {
-        const j = data[i];
-        const c = Sigma[j];
-        decoded.push(c)
-        Sigma.splice(j, 1);
-        Sigma.unshift(c);
-    }
-    return decoded.join("");
-    """
 
 """
 * Inicio del programa
 """
+
 def bwbs(original_word):
     '''
     try:
@@ -256,3 +247,26 @@ def bwbs(original_word):
     return bws
 
 # bwbs()
+
+"""
+try:
+    original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
+except:
+    print('Ingresa una cadena de texto válida')
+    sys.exit()
+
+bws = block_sorting_forward(original_word) #Block sorting forward con la string
+#resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
+
+print('\n')
+print(f'La cadena de texto original: "{original_word}"\n')
+print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
+mtf_encoded = MTF_Encoding(bws[0])
+binary = mtf_encoded[0]
+alphabet = mtf_encoded[1]
+mtf_decoded = MTF_Decoding(binary, alphabet)
+print(mtf_decoded)
+print(block_sorting_reverse_transformation(mtf_decoded, bws[1]))
+#print(f'Resultado de la segunda transformación: "{resultado}"')
+"""
+
