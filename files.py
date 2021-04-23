@@ -35,7 +35,12 @@ def open_file(test):
         for line in infile:
             x = BWBS.bwbs(line)
             modified_line = convertTuple(x[0])
-            test_modified.write(modified_line)
+            index = x[1]
+            mtf = BWBS.MTF_Encoding(modified_line)
+            binary = mtf[0]
+            alphabet = mtf[1]
+            test_modified.write(binary + ' ' + str(index) + '\n')
+            #enc.write(binary + ' ' + index + ' ' + alphabet + '\n')
     test_modified.close()
 
 get_file()

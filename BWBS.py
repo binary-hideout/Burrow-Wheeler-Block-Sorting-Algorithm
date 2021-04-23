@@ -74,7 +74,7 @@ def get_alphabet(text:str):
 
     for i in range(len(text)):
         alphabet.append(str(text[i]))
-    print(alphabet)
+    #print(alphabet)
     unique_alphabet = list(set(alphabet))
     unique_alphabet.sort()
     return unique_alphabet
