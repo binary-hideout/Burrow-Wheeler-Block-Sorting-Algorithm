@@ -27,10 +27,15 @@ def encode(option:int):
     strings = file_to_strings(txt_files[option - 1])
     with open(path + 'encoded.txt', 'w') as enc:
         for s in strings:
-            bwt = block_sorting_forward(s)
-            index = bwt[1]
-            print(bwt)
             
+            if s == '':
+                print('espacio')
+            
+            else:
+                bwt = block_sorting_forward(s)
+                index = bwt[1]
+                print(bwt)
+        
             #mtf = MTF_Encoding(bwt[0])
             #binary = mtf[0]
             #alphabet = mtf[1]
