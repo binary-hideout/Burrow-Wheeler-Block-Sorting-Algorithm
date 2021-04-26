@@ -2,6 +2,7 @@
 
 '''
 import BWBS
+import os, io 
 import sys
 from os import listdir
 from os.path import isfile, join
@@ -30,17 +31,25 @@ def convertTuple(tup):
 
 
 def open_file(test):
-    test_modified = open('bw_' + test, 'w')
-    with open(path + test) as infile:
-        for line in infile:
-            x = BWBS.bwbs(line)
-            modified_line = convertTuple(x[0])
-            index = x[1]
-            mtf = BWBS.MTF_Encoding(modified_line)
-            binary = mtf[0]
-            alphabet = mtf[1]
-            test_modified.write(binary + ' ' + str(index) + '\n')
-            #enc.write(binary + ' ' + index + ' ' + alphabet + '\n')
+    test_modified = open('bw_' + test, 'w', buffering=2000000)
+    #string = io.open(path + test, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True)
+    with open(path + test, buffering=2000000) as infile:
+        txt = infile.read()
+        #print(txt)
+        x = BWBS.bwbs(txt)
+        modified_line = convertTuple(x[0])
+        index = x[1]
+       
+        #mtf = BWBS.MTF_Encoding(txt)
+        mtf = BWBS.MTF_Encoding(modified_line)
+        binary = mtf[0]
+        alphabet = mtf[1]
+        #test_modified.write(binary)
+        test_modified.write(binary + ' ' + str(index) + '\n')
+        """
+        test_modified.write(binary + ' ' + str(index) + '\n')
+        #enc.write(binary + ' ' + index + ' ' + alphabet + '\n')
+        """
     test_modified.close()
 
 get_file()

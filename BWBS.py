@@ -2,6 +2,11 @@
 import sys
 import math
 
+def cyclic_perm_func(a:str):
+    n = len(a)
+    b = [[a[i - j] for i in range(n)] for j in range(n)]
+    return b
+
 """
 ? param char: La string de la que se sacaran las permutaciones ciclicas, 
 ?  a->b, b->c, c->d, d->a, por n veces, n=len(char)
@@ -27,7 +32,9 @@ def block_sorting_forward(char:str):
     if not char:
         raise ValueError("La string no puede estar vacía")
 
-    cyclic_permutations = all_string_permutations(char)
+    #cyclic_permutations = all_string_permutations(char)
+    cyclic_permutations = cyclic_perm_func(char)
+    
     #print(f'permutaciones de la string "{char}":')
     #print(cyclic_permutations, '\n')
     cyclic_permutations.sort()
