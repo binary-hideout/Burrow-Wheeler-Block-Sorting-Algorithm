@@ -3,7 +3,9 @@ import os
 
 from BWBS import *
 
-path = 'D:/FIME_8VO/TeoriaInfo/CalgaryCorpus/'
+# get PATH
+cwd = os.getcwd()
+path = cwd + '/CalgaryCorpus/'
 
 all_files = os.listdir(path)
 #print(all_files)
