@@ -1,6 +1,8 @@
 #from itertools import combinations, permutations
 import sys
 import math
+import time
+import LimitMemory
 
 def cyclic_perm_func(a:str):
     n = len(a)
@@ -13,11 +15,38 @@ def cyclic_perm_func(a:str):
 ? Referencia: https://solitaryroad.com/c302.html
 """
 def all_string_permutations(char:str):
+    memory = int(input('Cantidad de memoria a utilizar en GB: '))
+
+    # Default memory
+    if (memory <= 0) or (memory > 12):
+        memory = 2
+
+    LimitMemory.set_limit_memory(memory)
     if not isinstance(char, str):
         raise TypeError("El parametro debe ser una string")
     if not char:
         raise ValueError("La string no puede estar vacía")
-    return [char[i:] + char[:i] for i in range(len(char))]
+
+    buff = memory * 1000000000 # GB
+    with open('permutations_list.txt', 'w', buffering=buff) as permutation_file:
+
+        for i in range(len(char)):
+            p = char[i:] + char[:i]
+            permutation_file.write(p + 'Ä')
+
+    permutation_file.close()
+
+    with open('permutations_list.txt', 'r', buffering=buff) as permutation_file:
+        dataString = permutation_file.read()
+        dataList = dataString.split('Ä')
+        dataList.pop()
+
+        return dataList
+    
+    permutation_file.close()
+        
+
+    # return [char[i:] + char[:i] for i in range(len(char))]
 
 
 """
@@ -32,8 +61,8 @@ def block_sorting_forward(char:str):
     if not char:
         raise ValueError("La string no puede estar vacía")
 
-    #cyclic_permutations = all_string_permutations(char)
-    cyclic_permutations = cyclic_perm_func(char)
+    cyclic_permutations = all_string_permutations(char)
+    # cyclic_permutations = cyclic_perm_func(char)
     
     #print(f'permutaciones de la string "{char}":')
     #print(cyclic_permutations, '\n')

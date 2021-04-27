@@ -16,7 +16,7 @@ def get_file():
     try:
         print('--- DOCUMENTO DE PRUEBAS ---')
         for i, item in enumerate(calgary_files, 1):
-            if item != '.DS_Store': print(i, '. ' + item, sep = '', end = '\n')
+            if item != '.DS_Store': print(i-1, '. ' + item, sep = '', end = '\n')
 
         x = int(input('\nSeleccionar el documento con el que se vaya a trabajar: ')) # El usuario escoge en formato numérico el archivo con el que se trabajará
     except:
@@ -35,7 +35,7 @@ def open_file(test):
     #string = io.open(path + test, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True)
     with open(path + test, buffering=2000000) as infile:
         txt = infile.read()
-        #print(txt)
+        # print(txt)
         x = BWBS.bwbs(txt)
         modified_line = convertTuple(x[0])
         index = x[1]
