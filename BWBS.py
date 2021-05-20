@@ -27,23 +27,41 @@ def all_string_permutations(char:str):
     if not char:
         raise ValueError("La string no puede estar vacía")
 
+    char = char.replace('\n','')
+
+    # print(char)
+
     buff = memory * 1000000000 # GB
     with open('permutations_list.txt', 'w', buffering=buff) as permutation_file:
 
         for i in range(len(char)):
             p = char[i:] + char[:i]
-            permutation_file.write(p + 'Ä')
+            permutation_file.write(p+'\n')
+            # print(p)
 
     permutation_file.close()
 
-    with open('permutations_list.txt', 'r', buffering=buff) as permutation_file:
-        dataString = permutation_file.read()
-        dataList = dataString.split('Ä')
-        dataList.pop()
+    perm = list()
 
-        return dataList
+    print('\n\n\n\n\n\n\n============= SORTED ===============')
+    with open('permutations_list.txt', 'r', buffering=buff) as f:
+        for line in sorted(f):
+            perm.append(line[-2])
+
+    f.close()
+
+    print(perm)
+
+    return list()
+
+    # with open('permutations_list.txt', 'r', buffering=buff) as permutation_file:
+    #     dataString = permutation_file.read()
+    #     dataList = dataString.split('Ä')
+    #     dataList.pop()
+
+    #     return dataList
     
-    permutation_file.close()
+    # permutation_file.close()
         
 
     # return [char[i:] + char[:i] for i in range(len(char))]
