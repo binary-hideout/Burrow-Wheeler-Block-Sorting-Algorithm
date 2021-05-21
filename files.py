@@ -1,3 +1,4 @@
+
 '''
 
 '''
@@ -6,6 +7,7 @@ import os, io
 import sys
 from os import listdir
 from os.path import isfile, join
+from burrowswheeler import transform, inverse
 
 path = 'calgarycorpus/'
 calgary_files = [f for f in listdir(path) if isfile(join(path, f))] # Se obtienen todos los documentos dentro de la carpeta 'calgarycorpus'
@@ -37,15 +39,8 @@ def open_file(test):
         txt = infile.read()
         #print(txt)
         x = BWBS.bwbs(txt)
-        modified_line = convertTuple(x[0])
-        index = x[1]
        
-        #mtf = BWBS.MTF_Encoding(txt)
-        mtf = BWBS.MTF_Encoding(modified_line)
-        binary = mtf[0]
-        alphabet = mtf[1]
-        #test_modified.write(binary)
-        test_modified.write(binary + ' ' + str(index) + '\n')
+        test_modified.write(x)
         """
         test_modified.write(binary + ' ' + str(index) + '\n')
         #enc.write(binary + ' ' + index + ' ' + alphabet + '\n')
