@@ -1,8 +1,14 @@
 #from itertools import combinations, permutations
 import sys
+import os
 import math
 import time
 import LimitMemory
+
+def sort_file():
+    # Windows
+    os.system('cmd /c "sort /REC 65535 permutations_list.txt /o sorted_permutations.txt"')
+
 
 def cyclic_perm_func(a:str):
     n = len(a)
@@ -31,7 +37,7 @@ def all_string_permutations(char:str):
 
     # print(char)
 
-    buff = memory * 1000000000 # GB
+    buff = 2 * 1000000000 # GB
     with open('permutations_list.txt', 'w', buffering=buff) as permutation_file:
 
         for i in range(len(char)):
@@ -41,18 +47,31 @@ def all_string_permutations(char:str):
 
     permutation_file.close()
 
-    perm = list()
+    sort_file() # sorted_permutations.txt
 
-    print('\n\n\n\n\n\n\n============= SORTED ===============')
-    with open('permutations_list.txt', 'r', buffering=buff) as f:
-        for line in sorted(f):
-            perm.append(line[-2])
+    perm = ''
+    index = 0
+    original_index = 0
+
+    # print('\n\n\n\n\n\n\n============= SORTED ===============')
+    with open('sorted_permutations.txt', 'r', buffering=buff) as f:
+        for line in f:
+            perm += line[-2]
+            # perm.append(line[-2])
+
+            line = line.replace('\n','')
+
+            if line == char:
+                original_index = index
+            
+            index += 1
+                
 
     f.close()
 
-    print(perm)
+    # print(perm)
 
-    return list()
+    return perm, original_index
 
     # with open('permutations_list.txt', 'r', buffering=buff) as permutation_file:
     #     dataString = permutation_file.read()
@@ -79,19 +98,24 @@ def block_sorting_forward(char:str):
     if not char:
         raise ValueError("La string no puede estar vacía")
 
-    cyclic_permutations = all_string_permutations(char)
+    # cyclic_permutations = all_string_permutations(char)
     # cyclic_permutations = cyclic_perm_func(char)
     
     #print(f'permutaciones de la string "{char}":')
     #print(cyclic_permutations, '\n')
-    cyclic_permutations.sort()
+
+    # cyclic_permutations.sort()
+
     #print(f'permutaciones de la string "{char}" ordenadas alfabeticamente:')
     #print(cyclic_permutations)
 
-    combination = ''
-    for perm in cyclic_permutations:
-        combination += perm[-1]
-    original_word_index = cyclic_permutations.index(char)
+    # combination = ''
+    # for perm in cyclic_permutations:
+    #     combination += perm[-1]
+    # original_word_index = cyclic_permutations.index(char)
+
+
+    combination, original_word_index = all_string_permutations(char)
 
     return combination, original_word_index
 
