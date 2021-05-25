@@ -15,7 +15,7 @@ def get_file():
     try:
         print('--- DOCUMENTO DE PRUEBAS ---')
         for i, item in enumerate(calgary_files, 1):
-            if item != '.DS_Store': print(i, '. ' + item, sep = '', end = '\n')
+            if item != '.DS_Store': print(i-1, '. ' + item, sep = '', end = '\n')
 
         x = int(input('\nSeleccionar el documento con el que se vaya a trabajar: ')) # El usuario escoge en formato numérico el archivo con el que se trabajará
     except:
