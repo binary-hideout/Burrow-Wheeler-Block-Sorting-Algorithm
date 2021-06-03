@@ -1,7 +1,0 @@
-Todo debería
-ir bien hasta
-aquí
-pero aqui va a haber el error (o sea la linea 5 no se ve)
-
-esto ya no se debería ver
-OwO
