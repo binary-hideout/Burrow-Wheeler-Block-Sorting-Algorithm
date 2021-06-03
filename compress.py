@@ -1,14 +1,10 @@
 '''
 
 '''
-import BWBS
-import os, io 
+import os
 import sys
 from os import listdir
 from os.path import isfile, join
-import threading
-from threading import Thread
-import binascii
 
 path = os.getcwd()
 calgary_files = [f for f in listdir(path) if isfile(join(path, f))] # Se obtienen todos los documentos dentro de la carpeta 'calgarycorpus'
@@ -43,12 +39,6 @@ def open_file(test):
             transform = transform.split(' ')
             data = transform[0]
             index = transform[1]
-
-            # asscii = list(chunkstring(data, 3))
-
-            # for binary in asscii:
-            #     c = int(binary,2)
-            #     final_text += str(c)
 
             c = int(data,2)
             h = hex(c).split('x')[-1]

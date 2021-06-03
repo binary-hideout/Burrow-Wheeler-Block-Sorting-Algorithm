@@ -2,12 +2,9 @@
 
 '''
 import BWBS
-import os, io 
 import sys
 from os import listdir
 from os.path import isfile, join
-import threading
-from threading import Thread
 
 path = 'calgarycorpus/'
 calgary_files = [f for f in listdir(path) if isfile(join(path, f))] # Se obtienen todos los documentos dentro de la carpeta 'calgarycorpus'
@@ -34,10 +31,9 @@ def convertTuple(tup):
 
 def open_file(test):
     test_modified = open('bw_' + test, 'w', buffering=2000000)
-    #string = io.open(path + test, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True)
     with open(path + test, buffering=2000000) as infile:
         txt = infile.read()
-        # print(txt)
+
 
         txt_list = list()
 
@@ -63,19 +59,13 @@ def open_file(test):
             modified_line = convertTuple(x[0])
             index = x[1]
         
-            #mtf = BWBS.MTF_Encoding(txt)
             mtf = BWBS.MTF_Encoding(modified_line)
             binary = mtf[0]
             alphabet = mtf[1]
             alphabet_list.append(alphabet)
-            #test_modified.write(binary)
-            # test_modified.write(binary + ' ' + str(index) + '\n')
+
             test_modified.write(binary + ' ' + str(index) + 'Ä')
 
-            """
-            test_modified.write(binary + ' ' + str(index) + '\n')
-            #enc.write(binary + ' ' + index + ' ' + alphabet + '\n')
-            """
     test_modified.close()
 
     opc = input('Decodificar el archivo? (s/n): ')
@@ -103,9 +93,10 @@ def decode_file(test, alphabet):
             index = encode[1]
             x = BWBS.MTF_Decoding(transform, alphabet[a])
 
-            final_text += x
+            final_text += BWBS.block_sorting_reverse_transformation(x, int(index))
 
-            # final_text += BWBS.block_sorting_reverse_transformation(x, int(index))
+            # ? Final_text: MTF
+            # final_text += x
 
             a+=1
             

@@ -1,5 +1,3 @@
-#from itertools import combinations, permutations
-import sys
 import math
 
 """
@@ -28,11 +26,7 @@ def block_sorting_forward(char:str):
         raise ValueError("La string no puede estar vacía")
 
     cyclic_permutations = all_string_permutations(char)
-    #print(f'permutaciones de la string "{char}":')
-    #print(cyclic_permutations, '\n')
     cyclic_permutations.sort()
-    #print(f'permutaciones de la string "{char}" ordenadas alfabeticamente:')
-    #print(cyclic_permutations)
 
     combination = ''
     for perm in cyclic_permutations:
@@ -74,7 +68,7 @@ def get_alphabet(text:str):
 
     for i in range(len(text)):
         alphabet.append(str(text[i]))
-    #print(alphabet)
+
     unique_alphabet = list(set(alphabet))
     unique_alphabet.sort()
     return unique_alphabet
@@ -95,18 +89,10 @@ def move_to_front(text:str):
     for i in range(len(text)):
         id_alphabet = txt_alphabet.index(text[i])
         indexes.append(id_alphabet)
-        #pop that element (text[i]) and put it at the front of the alphabet
         txt_alphabet.pop(id_alphabet)
         txt_alphabet.insert(0, text[i])
 
     return indexes, get_alphabet(text) #indexes + original alphabet
-
-"""
-def gamma(i):
-    repeat = "0" * math.floor(math.log2(i + 1))
-    binary = format((i+1),'b')
-    return (str(repeat) + str(binary))
-"""
 
 def delta(i):
     N = math.floor(math.log2(i+1))
@@ -115,33 +101,6 @@ def delta(i):
     repeat = "0" * L
     return (repeat + str(format((N+1),'b')) + binary[1:])
 
-"""
-# Robbie test
-def inv_gamma(bitstream: str):
-    output = []
-    try:
-        j = bitstream.index("1")
-    except Exception as e:
-        j=-1
-        print("No se encontró el indice")
-
-    while ((j >= 0) and (len(bitstream) > (2*j))):
-        output.append(int(bitstream[j:(2 * j + 1)] , 2) - 1)
-        bitstream = bitstream[(2*j+1):]
-
-        try:
-            j = bitstream.index("1")
-        except Exception as e:
-            j=-1
-            print("No se encontró el indice")
-
-
-    if len(bitstream) > 0:
-        return []
-
-    return output
-
-"""
 
 """
 ? param bits: A string of bits consisting of concatenated Elias delta codes.
@@ -152,7 +111,6 @@ def inv_delta(bits:str):
         L = bits.index("1")
     except Exception as e:
         L=-1
-        #print("No se encontró el indice")
 
     while L >= 0:
         if ( len(bits) < (2*L+1) ):
@@ -171,7 +129,6 @@ def inv_delta(bits:str):
             L = bits.index("1")
         except Exception as e:
             L=-1
-            #print("No se encontró el indice")
 
 
     if len(bits) > 0:
@@ -186,14 +143,13 @@ def inv_delta(bits:str):
 ? return accumulator: the string converted to bits
 """
 def MTF_Encoding(char:str):
-    #move_to_front(bws[0]).reduce((accumulator, i) => accumulator + delta(i), "");
     mtf = move_to_front(char)
     indexes = mtf[0]
     alphabet = mtf[1]
     accumulator = ''
     for i in range(len(indexes)):
         accumulator += delta(indexes[i])
-    #print(indexes)
+
     return accumulator, alphabet
 
 """
@@ -225,48 +181,7 @@ def MTF_Decoding(mtf_coded:str, alphabet:list):
 """
 
 def bwbs(original_word):
-    '''
-    try:
-        original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
-    except:
-        print('Ingresa una cadena de texto válida')
-        sys.exit()
-    '''
 
     bws = block_sorting_forward(original_word) #Block sorting forward con la string
-    #resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
-
-    '''
-    print('\n')
-    print(f'La cadena de texto original: "{original_word}"\n')
-    print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
-    print(move_to_front(bws[0]))
-    '''
-    #print(f'Resultado de la segunda transformación: "{resultado}"')
     
     return bws
-
-# bwbs()
-
-"""
-try:
-    original_word = str(input('Ingresa una cadena de texto para aplicarle el Algoritmo BWSB: '))
-except:
-    print('Ingresa una cadena de texto válida')
-    sys.exit()
-
-bws = block_sorting_forward(original_word) #Block sorting forward con la string
-#resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
-
-print('\n')
-print(f'La cadena de texto original: "{original_word}"\n')
-print(f'Resultado de la primera transformación: "{bws[0]}" con indice de la original "{bws[1]}"')
-mtf_encoded = MTF_Encoding(bws[0])
-binary = mtf_encoded[0]
-alphabet = mtf_encoded[1]
-mtf_decoded = MTF_Decoding(binary, alphabet)
-print(mtf_decoded)
-print(block_sorting_reverse_transformation(mtf_decoded, bws[1]))
-#print(f'Resultado de la segunda transformación: "{resultado}"')
-"""
-
