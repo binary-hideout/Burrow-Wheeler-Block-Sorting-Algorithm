@@ -2,6 +2,7 @@
 
 '''
 import BWBS
+from run_encoding import *
 import sys
 from os import listdir
 from os.path import isfile, join
@@ -38,7 +39,7 @@ def open_file(test):
         txt_list = list()
 
         # ? Entre más bajo sea este valor, más rápido será el prorgama
-        letras_por_transformada = 24688 # Aproximadamente 1 GB de memoria
+        letras_por_transformada = 100 # Aproximadamente 1 GB de memoria
 
         if (len(txt) < (letras_por_transformada * 2)):
             txt_list.append(txt)
@@ -54,10 +55,28 @@ def open_file(test):
                 aux = siguiente
 
         alphabet_list = list()
+        rle = False
+        print('Aplicar RLE puede mejorar el nivel de compresión y acelerar el proceso')
+        opc = input('Usar RLE? (s/n): ')
+
+        if opc == 's':
+            rle = True
+        elif opc == 'n':
+            rle = False
+        else:
+            print('Ingrese una opcion valida')
+
         for txt in txt_list:
-            x = BWBS.bwbs(txt)
-            modified_line = convertTuple(x[0])
-            index = x[1]
+            if(rle):
+                run_l_encoded = encode(txt)
+                x = BWBS.bwbs(run_l_encoded)
+                modified_line = convertTuple(x[0])
+                index = x[1]
+            else:
+                x = BWBS.bwbs(txt)
+                modified_line = convertTuple(x[0])
+                index = x[1]
+
         
             mtf = BWBS.MTF_Encoding(modified_line)
             binary = mtf[0]
@@ -71,13 +90,13 @@ def open_file(test):
     opc = input('Decodificar el archivo? (s/n): ')
 
     if opc == 's':
-        decode_file(test, alphabet_list)
+        decode_file(test, alphabet_list, rle)
     elif opc == 'n':
         sys.exit()
     else:
         print('Ingrese una opcion valida')
 
-def decode_file(test, alphabet):
+def decode_file(test, alphabet, rle):
     test_decoded = open('decode_' + test, 'w', buffering=2000000)
     
     with open('bw_' + test, 'r', buffering=2000000) as file:
@@ -93,7 +112,11 @@ def decode_file(test, alphabet):
             index = encode[1]
             x = BWBS.MTF_Decoding(transform, alphabet[a])
 
-            final_text += BWBS.block_sorting_reverse_transformation(x, int(index))
+            if(rle):
+                final_text += decode(BWBS.block_sorting_reverse_transformation(x, int(index)))
+            else:
+                final_text += BWBS.block_sorting_reverse_transformation(x, int(index))
+                
 
             # ? Final_text: MTF
             # final_text += x

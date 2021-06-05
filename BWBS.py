@@ -103,7 +103,7 @@ def delta(i):
 
 
 """
-? param bits: A string of bits consisting of concatenated Elias delta codes.
+? param bits: Cadena de bits con los codigos "Elias delta"
 """
 def inv_delta(bits:str):
     output = []
@@ -153,10 +153,10 @@ def MTF_Encoding(char:str):
     return accumulator, alphabet
 
 """
-? function MTF_Decoding: Decodes and Mtf_encoded string
-? param mtf_coded: the string to be decoded
-? param alphabet: original alphabet
-? return decoded text: the mapped characters from the alphabet
+? function MTF_Decoding: Decodifica la cadena del Mtf
+? param mtf_coded: la cadena a decodificar
+? param alphabet: alfabeto original
+? return decoded text: caracteres del alfabeto ordenados
 """
 def MTF_Decoding(mtf_coded:str, alphabet:list):
     data = inv_delta(mtf_coded)
