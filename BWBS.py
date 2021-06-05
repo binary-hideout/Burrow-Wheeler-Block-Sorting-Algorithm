@@ -3,16 +3,47 @@ import os
 import math
 import time
 import LimitMemory
+import big_file_sort
+from random import choice
+from timeit import timeit
+from functools import partial
 
 def sort_file():
     # Windows
-    os.system('cmd /c "sort /REC 65535 permutations_list.txt /o sorted_permutations.txt"')
+    #os.system('cmd /c "sort /REC 65535 permutations_list.txt /o sorted_permutations.txt"')
+    big_file_sort.sort_file('permutations_list.txt', 'sorted_permutations.txt', temp_file_location='/temp/')
 
+def radix_sort(values, key, step=0):
+    if len(values) < 2:
+        for value in values:
+            yield value
+        return
+
+    bins = {}
+    for value in values:
+        bins.setdefault(key(value, step), []).append(value)
+
+    for k in sorted(bins.keys()):
+        for r in radix_sort(bins[k], key, step + 1):
+            yield r
+
+def bw_key(text, value, step):
+    return text[(value + step) % len(text)]
+
+def burroughs_wheeler_custom(text):
+    return ''.join(text[i - 1] for i in radix_sort(range(len(text)), partial(bw_key, text)))
 
 def cyclic_perm_func(a:str):
     n = len(a)
     b = [[a[i - j] for i in range(n)] for j in range(n)]
     return b
+
+def nextperm(lst):
+  for i in range(len(lst) - 1, 0, -1):
+    if lst[i-1] < lst[i]:
+      for j in range(len(lst) - 1, i-1, -1):
+        if lst[i-1] < lst[j]:
+          return lst[:i-1] + lst[j:j+1] + lst[:j:-1] + lst[i-1:i] + lst[j-1:i-1:-1]
 
 """
 ? param char: La string de la que se sacaran las permutaciones ciclicas, 
@@ -20,6 +51,7 @@ def cyclic_perm_func(a:str):
 ? Referencia: https://solitaryroad.com/c302.html
 """
 def all_string_permutations(char:str):
+    """
     memory = int(input('Cantidad de memoria a utilizar en GB: '))
 
     # Default memory
@@ -27,6 +59,7 @@ def all_string_permutations(char:str):
         memory = 2
 
     LimitMemory.set_limit_memory(memory)
+    """
     if not isinstance(char, str):
         raise TypeError("El parametro debe ser una string")
     if not char:
@@ -37,7 +70,7 @@ def all_string_permutations(char:str):
     # print(char)
 
     buff = 2 * 1000000000 # GB
-    with open('permutations_list.txt', 'w', buffering=buff) as permutation_file:
+    with open('permutations_list.txt', 'w') as permutation_file:
 
         for i in range(len(char)):
             p = char[i:] + char[:i]
@@ -45,7 +78,32 @@ def all_string_permutations(char:str):
             # print(p)
 
     permutation_file.close()
+    perms = []
+    with open('permutations_list.txt', 'r') as permutation_file:
 
+        for l in permutation_file:
+            perms.append(l)
+    """
+    sorted_perms = nextperm(perms)
+    perm = ''
+    index = 0
+    original_index = 0
+
+    # print('\n\n\n\n\n\n\n============= SORTED ===============')
+
+    for line in sorted_perms:
+        perm += line[-2]
+        # perm.append(line[-2])
+
+        line = line.replace('\n','')
+
+        if line == char:
+            original_index = index
+        
+        index += 1
+    """
+
+    """
     sort_file() # sorted_permutations.txt
 
     perm = ''
@@ -53,7 +111,7 @@ def all_string_permutations(char:str):
     original_index = 0
 
     # print('\n\n\n\n\n\n\n============= SORTED ===============')
-    with open('sorted_permutations.txt', 'r', buffering=buff) as f:
+    with open('sorted_permutations.txt', 'r') as f:
         for line in f:
             perm += line[-2]
             # perm.append(line[-2])
@@ -67,10 +125,10 @@ def all_string_permutations(char:str):
                 
 
     f.close()
-
+    """
     # print(perm)
 
-    return perm, original_index
+    return perms
 
     # with open('permutations_list.txt', 'r', buffering=buff) as permutation_file:
     #     dataString = permutation_file.read()
@@ -97,7 +155,7 @@ def block_sorting_forward(char:str):
     if not char:
         raise ValueError("La string no puede estar vacía")
 
-    # cyclic_permutations = all_string_permutations(char)
+    #cyclic_permutations = all_string_permutations(char)
     # cyclic_permutations = cyclic_perm_func(char)
     
     #print(f'permutaciones de la string "{char}":')
@@ -108,15 +166,15 @@ def block_sorting_forward(char:str):
     #print(f'permutaciones de la string "{char}" ordenadas alfabeticamente:')
     #print(cyclic_permutations)
 
-    # combination = ''
+    #combination = ''
     # for perm in cyclic_permutations:
     #     combination += perm[-1]
     # original_word_index = cyclic_permutations.index(char)
+    custom = partial(burroughs_wheeler_custom, char)
+    #combination += custom.args[0][-2]
+    #combination, original_word_index = all_string_permutations(char)
 
-
-    combination, original_word_index = all_string_permutations(char)
-
-    return combination, original_word_index
+    return custom.args[0]
 
 """
 ? function block_sorting_reverse_transformation: 'invierte' el resultado de una transformada de BW
@@ -305,8 +363,11 @@ def bwbs(original_word):
     '''
 
     bws = block_sorting_forward(original_word) #Block sorting forward con la string
+    
     #resultado = block_sorting_reverse_transformation(bws[0], bws[1]) #Block sorting reverse con el resultado de bs forward
-
+    mtf_encoded = MTF_Encoding(bws[0])
+    binary = mtf_encoded[0]
+    alphabet = mtf_encoded[1]
     '''
     print('\n')
     print(f'La cadena de texto original: "{original_word}"\n')

@@ -4,6 +4,8 @@ import warnings
 import winerror
 import win32api
 import win32job
+import big_file_sort
+
 
 g_hjob = None
 

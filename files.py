@@ -37,8 +37,9 @@ def open_file(test):
     #string = io.open(path + test, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True)
     with open(path + test, buffering=2000000) as infile:
         txt = infile.read()
+        data = ''.join(txt) + '$'
         # print(txt)
-        x = BWBS.bwbs(txt)
+        x = BWBS.bwbs(data)
        
         test_modified.write(x)
         """
