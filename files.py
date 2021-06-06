@@ -6,6 +6,7 @@ from run_encoding import *
 import sys
 from os import listdir
 from os.path import isfile, join
+import timeit
 
 path = 'calgarycorpus/'
 calgary_files = [f for f in listdir(path) if isfile(join(path, f))] # Se obtienen todos los documentos dentro de la carpeta 'calgarycorpus'
@@ -68,20 +69,25 @@ def open_file(test):
 
         for txt in txt_list:
             if(rle):
+                rle_start = timeit.default_timer()
                 run_l_encoded = encode(txt)
+                rle_time = timeit.default_timer() - rle_start
+                bwbs_start = timeit.default_timer()
                 x = BWBS.bwbs(run_l_encoded)
                 modified_line = convertTuple(x[0])
                 index = x[1]
+                bwbs_time = timeit.default_timer() - bwbs_start
             else:
                 x = BWBS.bwbs(txt)
                 modified_line = convertTuple(x[0])
                 index = x[1]
 
-        
+            mtf_start = timeit.default_timer()
             mtf = BWBS.MTF_Encoding(modified_line)
             binary = mtf[0]
             alphabet = mtf[1]
             alphabet_list.append(alphabet)
+            mtf_time = timeit.default_timer() - mtf_start
 
             test_modified.write(binary + ' ' + str(index) + 'Ä')
 
@@ -90,8 +96,17 @@ def open_file(test):
     opc = input('Decodificar el archivo? (s/n): ')
 
     if opc == 's':
+        decoding_start = timeit.default_timer()
         decode_file(test, alphabet_list, rle)
+        decoding_time = timeit.default_timer() - decoding_start 
+        print('\nTiempos:\n-------------------------------\n')
+        print(f'RL encoding: {rle_time}s\nBWT: {bwbs_time/60}min\nMTF encoding: {mtf_time}s\n')
+        print(f'Decoding: {decoding_time/60}min\n')
+        print('----------------------------')
     elif opc == 'n':
+        print('Tiempos:\n')
+        print(f'RL encoding: {rle_time}s\nBWT: {bwbs_time/60}min\nMTF encoding: {mtf_time}s\n')
+        print('----------------------------')
         sys.exit()
     else:
         print('Ingrese una opcion valida')
@@ -111,19 +126,17 @@ def decode_file(test, alphabet, rle):
             transform = encode[0]
             index = encode[1]
             x = BWBS.MTF_Decoding(transform, alphabet[a])
-
+            
             if(rle):
                 final_text += decode(BWBS.block_sorting_reverse_transformation(x, int(index)))
             else:
                 final_text += BWBS.block_sorting_reverse_transformation(x, int(index))
-                
+
 
             # ? Final_text: MTF
             # final_text += x
 
-            a+=1
-            
-        
+            a+=1 
         file.close()
 
 
