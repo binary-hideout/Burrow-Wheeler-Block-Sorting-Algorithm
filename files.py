@@ -35,12 +35,31 @@ def open_file(test):
     test_modified = open('bw_' + test, 'w', buffering=2000000)
     with open(path + test, buffering=2000000) as infile:
         txt = infile.read()
-
-
         txt_list = list()
 
+        rle = False
+        print('Aplicar RLE puede mejorar el nivel de compresión y acelerar el proceso')
+        opc = input('Usar RLE? (s/n): ')
+
+        if opc == 's':
+            rle = True
+        elif opc == 'n':
+            rle = False
+        else:
+            print('Ingrese una opcion valida')
+        
+        rle_time = 'N/A'
+        if(rle):
+            rle_start = timeit.default_timer()
+            run_l_encoded = encode(txt)
+            rle_time = timeit.default_timer() - rle_start
+            txt = run_l_encoded
+        else:
+            rle_time = 'N/A'
+            pass
+
         # ? Entre más bajo sea este valor, más rápido será el prorgama
-        letras_por_transformada = 100 # Aproximadamente 1 GB de memoria
+        letras_por_transformada = 24688 # Aproximadamente 1 GB de memoria
 
         if (len(txt) < (letras_por_transformada * 2)):
             txt_list.append(txt)
@@ -56,32 +75,16 @@ def open_file(test):
                 aux = siguiente
 
         alphabet_list = list()
-        rle = False
-        print('Aplicar RLE puede mejorar el nivel de compresión y acelerar el proceso')
-        opc = input('Usar RLE? (s/n): ')
-
-        if opc == 's':
-            rle = True
-        elif opc == 'n':
-            rle = False
-        else:
-            print('Ingrese una opcion valida')
+        
 
         for txt in txt_list:
-            if(rle):
-                rle_start = timeit.default_timer()
-                run_l_encoded = encode(txt)
-                rle_time = timeit.default_timer() - rle_start
-                bwbs_start = timeit.default_timer()
-                x = BWBS.bwbs(run_l_encoded)
-                modified_line = convertTuple(x[0])
-                index = x[1]
-                bwbs_time = timeit.default_timer() - bwbs_start
-            else:
-                x = BWBS.bwbs(txt)
-                modified_line = convertTuple(x[0])
-                index = x[1]
-
+            #?BWBS
+            bwbs_start = timeit.default_timer()
+            x = BWBS.bwbs(txt)
+            modified_line = convertTuple(x[0])
+            index = x[1]
+            bwbs_time = timeit.default_timer() - bwbs_start
+            #?MTF
             mtf_start = timeit.default_timer()
             mtf = BWBS.MTF_Encoding(modified_line)
             binary = mtf[0]

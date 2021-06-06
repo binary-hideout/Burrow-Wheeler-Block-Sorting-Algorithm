@@ -147,10 +147,12 @@ def MTF_Encoding(char:str):
     indexes = mtf[0]
     alphabet = mtf[1]
     accumulator = ''
+    
     for i in range(len(indexes)):
-        accumulator += delta(indexes[i])
+        accumulator += delta(indexes[i]) #str(indexes[i])
+    
 
-    return accumulator, alphabet
+    return accumulator, alphabet #accumulator
 
 """
 ? function MTF_Decoding: Decodifica la cadena del Mtf
